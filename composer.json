@@ -1,12 +1,19 @@
 {
     "name": "droath/laravel-text-chunker",
-    "description": "A straightforward method for dividing text (also known as splitting text) into smaller segments using various strategies.",
+    "description": "Flexible, strategy-based text chunking for Laravel with support for character, token, sentence, and markdown-aware splitting. Perfect for AI/LLM applications and RAG systems.",
     "keywords": [
-        "Droath",
+        "ai",
+        "llm",
+        "rag",
+        "openai",
         "laravel",
+        "markdown",
+        "tokenizer",
         "text-chunker",
         "text-splitter",
-        "text-splitting"
+        "text-splitting",
+        "text-processing",
+        "chunking-strategy"
     ],
     "homepage": "https://github.com/droath/laravel-text-chunker",
     "license": "MIT",
