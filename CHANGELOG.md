@@ -42,7 +42,7 @@ Initial release of Laravel Text Chunker - a flexible, strategy-based text chunki
 
 ### Requirements
 - PHP 8.3 or higher
-- Laravel 10.x or 11.x
+- Laravel 11.x or 12.x
 
 ### Dependencies
 - `yethee/tiktoken ^0.12.0` - OpenAI token encoding/decoding

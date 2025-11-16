@@ -7,15 +7,16 @@ namespace Droath\TextChunker;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
 
+/**
+ * TextChunkerServiceProvider registers the text chunker package services.
+ *
+ * This provider handles package configuration, service registration,
+ * and bootstrapping of custom strategies from the configuration file.
+ */
 class TextChunkerServiceProvider extends PackageServiceProvider
 {
     public function configurePackage(Package $package): void
     {
-        /*
-         * This class is a Package Service Provider
-         *
-         * More info: https://github.com/spatie/laravel-package-tools
-         */
         $package
             ->name('text-chunker')
             ->hasConfigFile();

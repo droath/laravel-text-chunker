@@ -5,18 +5,24 @@
 [![GitHub Code Style Action Status](https://img.shields.io/github/actions/workflow/status/droath/laravel-text-chunker/fix-php-code-style-issues.yml?branch=main&label=code%20style&style=flat-square)](https://github.com/droath/laravel-text-chunker/actions?query=workflow%3A"Fix+PHP+code+style+issues"+branch%3Amain)
 [![Total Downloads](https://img.shields.io/packagist/dt/droath/laravel-text-chunker.svg?style=flat-square)](https://packagist.org/packages/droath/laravel-text-chunker)
 
-A Laravel package that provides flexible, strategy-based text chunking capabilities for AI/LLM applications. Split text into smaller segments using character count, token count, sentence boundaries, or markdown-aware strategies with a fluent, Laravel-friendly API.
+A Laravel package that provides flexible, strategy-based text chunking
+capabilities for AI/LLM applications. Split text into smaller segments using
+character count, token count, sentence boundaries, or markdown-aware strategies
+with a fluent, Laravel-friendly API.
 
 Perfect for:
-- Optimizing API calls to LLM providers like OpenAI by chunking text to fit token limits
-- Implementing RAG (Retrieval-Augmented Generation) systems with context-aware chunks
+
+- Optimizing API calls to LLM providers like OpenAI by chunking text to fit
+  token limits
+- Implementing RAG (Retrieval-Augmented Generation) systems with context-aware
+  chunks
 - Preserving markdown structure when splitting documentation or content
 - Creating custom text splitting logic for domain-specific needs
 
 ## Requirements
 
 - PHP 8.3 or higher
-- Laravel 10.x or 11.x
+- Laravel 11.x or 12.x
 
 ## Installation
 
@@ -36,7 +42,8 @@ Optionally, publish the configuration file:
 php artisan vendor:publish --tag="text-chunker-config"
 ```
 
-This will create a `config/text-chunker.php` file where you can customize default settings:
+This will create a `config/text-chunker.php` file where you can customize
+default settings:
 
 ```php
 return [
@@ -51,7 +58,7 @@ return [
         ],
         'sentence' => [
             // Abbreviations that should not trigger sentence breaks
-            'abbreviations' => ['Dr.', 'Mr.', 'Mrs.', 'Ms.', 'Prof.', 'Sr.', 'Jr.'],
+            'abbreviations' => ['Dr', 'Mr', 'Mrs', 'Ms', 'Prof', 'Sr', 'Jr'],
         ],
     ],
 
@@ -103,6 +110,7 @@ $chunks = TextChunker::strategy('token', ['model' => 'gpt-3.5-turbo'])
 ```
 
 **Supported Models:**
+
 - `gpt-4`
 - `gpt-3.5-turbo`
 - `text-davinci-003`
@@ -123,7 +131,7 @@ $chunks = TextChunker::strategy('sentence')
 
 // Custom abbreviations
 $chunks = TextChunker::strategy('sentence', [
-        'abbreviations' => ['Dr.', 'Mr.', 'Mrs.', 'Ph.D.']
+        'abbreviations' => ['Dr', 'Mr', 'Mrs', 'Ph.D']
     ])
     ->size(3)
     ->chunk($text);
@@ -133,7 +141,7 @@ $chunks = TextChunker::strategy('sentence', [
 
 Preserve markdown structure when chunking:
 
-```php
+````php
 use Droath\TextChunker\Facades\TextChunker;
 
 $markdown = <<<'MD'
@@ -157,13 +165,14 @@ $chunks = TextChunker::strategy('markdown')
 
 // Markdown elements (code blocks, headers, lists, blockquotes, horizontal rules)
 // are never split in the middle, even if they exceed the chunk size
-```
+````
 
 ## Advanced Features
 
 ### Overlap for Context Preservation
 
-Add percentage-based overlap between chunks to maintain context (ideal for RAG systems):
+Add percentage-based overlap between chunks to maintain context (ideal for RAG
+systems):
 
 ```php
 use Droath\TextChunker\Facades\TextChunker;
@@ -179,6 +188,7 @@ $chunks = TextChunker::strategy('character')
 ```
 
 Overlap works with all strategies:
+
 - **Character strategy**: 20% of characters overlap
 - **Token strategy**: 20% of tokens overlap
 - **Sentence strategy**: 20% of sentences overlap (rounded)
@@ -225,7 +235,8 @@ class MyService
 
 ## Custom Strategies
 
-Create your own chunking strategies by implementing the `ChunkerStrategyInterface`:
+Create your own chunking strategies by implementing the
+`ChunkerStrategyInterface`:
 
 ### Step 1: Create Strategy Class
 
@@ -321,21 +332,21 @@ TextChunker::strategy(string $name, array $options = [])  // Select strategy
 **Method Details:**
 
 - **`strategy(string $name, array $options = [])`**: Select chunking strategy
-  - Built-in strategies: `'character'`, `'token'`, `'sentence'`, `'markdown'`
-  - Options vary by strategy (e.g., `['model' => 'gpt-4']` for token strategy)
+    - Built-in strategies: `'character'`, `'token'`, `'sentence'`, `'markdown'`
+    - Options vary by strategy (e.g., `['model' => 'gpt-4']` for token strategy)
 
 - **`size(int $size)`**: Set target chunk size (required)
-  - Interpretation depends on strategy (characters, tokens, sentences)
-  - Must be greater than zero
+    - Interpretation depends on strategy (characters, tokens, sentences)
+    - Must be greater than zero
 
 - **`overlap(int $percentage)`**: Set overlap between chunks (optional)
-  - Percentage: 0-100
-  - Copies content from end of previous chunk to start of next chunk
+    - Percentage: 0-100
+    - Copies content from end of previous chunk to start of next chunk
 
 - **`chunk(string $text)`**: Execute chunking and return array of Chunk objects
-  - Validates all parameters (deferred validation)
-  - Throws `ChunkerException` on validation failures
-  - Returns `array<int, Chunk>`
+    - Validates all parameters (deferred validation)
+    - Throws `ChunkerException` on validation failures
+    - Returns `array<int, Chunk>`
 
 ## Validation and Error Handling
 
@@ -362,7 +373,8 @@ try {
 - Size <= 0: `"Chunk size must be greater than zero"`
 - Invalid overlap: `"Overlap percentage must be between 0 and 100"`
 - Empty text: `"Text cannot be empty"`
-- Unknown strategy: `"Unknown chunking strategy: xyz. Available strategies: character, token, sentence, markdown"`
+- Unknown strategy:
+  `"Unknown chunking strategy: xyz. Available strategies: character, token, sentence, markdown"`
 - Invalid token model: `"Unsupported model: xyz"`
 
 ## Testing
@@ -393,7 +405,8 @@ composer analyse
 
 ## Changelog
 
-Please see [CHANGELOG](CHANGELOG.md) for more information on what has changed recently.
+Please see [CHANGELOG](CHANGELOG.md) for more information on what has changed
+recently.
 
 ## Contributing
 
@@ -401,7 +414,8 @@ Please see [CONTRIBUTING](CONTRIBUTING.md) for details.
 
 ## Security Vulnerabilities
 
-Please review [our security policy](../../security/policy) on how to report security vulnerabilities.
+Please review [our security policy](../../security/policy) on how to report
+security vulnerabilities.
 
 ## Credits
 
@@ -410,4 +424,5 @@ Please review [our security policy](../../security/policy) on how to report secu
 
 ## License
 
-The MIT License (MIT). Please see [License File](LICENSE.md) for more information.
+The MIT License (MIT). Please see [License File](LICENSE.md) for more
+information.

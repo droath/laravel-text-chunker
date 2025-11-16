@@ -7,6 +7,11 @@ namespace Droath\TextChunker\Facades;
 use Illuminate\Support\Facades\Facade;
 
 /**
+ * TextChunker facade provides convenient static access to the text chunker manager.
+ *
+ * This facade allows for fluent text chunking operations throughout your Laravel
+ * application without explicitly resolving the manager from the container.
+ *
  * @method static \Droath\TextChunker\TextChunkerManager strategy(string $name, array $options = [])
  * @method static \Droath\TextChunker\TextChunkerManager size(int $size)
  * @method static \Droath\TextChunker\TextChunkerManager overlap(int $percentage)

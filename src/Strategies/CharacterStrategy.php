@@ -56,7 +56,6 @@ class CharacterStrategy implements ChunkerStrategyInterface
         $overlapAmount = $this->calculateOverlapAmount($size);
         $step = $size - $overlapAmount;
 
-        // Guard: Ensure step is at least 1 to prevent infinite loops
         if ($step <= 0) {
             throw new ChunkerException(
                 'Overlap percentage too high for given chunk size. Maximum overlap is '.
@@ -77,8 +76,6 @@ class CharacterStrategy implements ChunkerStrategyInterface
 
             $index++;
 
-            // Move position forward by step size
-            // Break if we've covered all text with this chunk
             if ($position + $chunkLength >= $textLength) {
                 break;
             }

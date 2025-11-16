@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Droath\TextChunker;
 
-use Droath\TextChunker\Concerns\HasOverlap;
 use Droath\TextChunker\Strategies\TokenStrategy;
 use Droath\TextChunker\Exceptions\ChunkerException;
 use Droath\TextChunker\Strategies\MarkdownStrategy;
@@ -13,7 +12,7 @@ use Droath\TextChunker\Strategies\CharacterStrategy;
 use Droath\TextChunker\Contracts\ChunkerStrategyInterface;
 
 /**
- * TextChunkerManager provides fluent API for text chunking with strategy
+ * TextChunkerManager provides a fluent API for text chunking with a strategy
  * pattern.
  *
  * This manager orchestrates text chunking by registering strategies, building
@@ -132,7 +131,7 @@ class TextChunkerManager
     /**
      * Execute the chunking operation with the configured strategy.
      *
-     * This method performs all validation and delegates to the selected
+     * This method performs all validations and delegates to the selected
      * strategy.
      *
      * @param string $text The text to chunk
@@ -147,14 +146,12 @@ class TextChunkerManager
 
         $strategy = $this->resolveStrategy();
 
-        // Configure overlap if the strategy supports it
         if ($this->overlapPercentage !== null && method_exists($strategy, 'setOverlap')) {
             $strategy->setOverlap($this->overlapPercentage);
         }
 
         $result = $strategy->chunk($text, $this->chunkSize, $this->strategyOptions);
 
-        // Reset state after chunking to prevent leaks in singleton usage
         $this->resetState();
 
         return $result;
@@ -188,7 +185,10 @@ class TextChunkerManager
             throw new ChunkerException('Chunk size must be greater than zero');
         }
 
-        if ($this->overlapPercentage !== null && ($this->overlapPercentage < 0 || $this->overlapPercentage > 100)) {
+        if (
+            $this->overlapPercentage !== null
+            && ($this->overlapPercentage < 0 || $this->overlapPercentage > 100)
+        ) {
             throw new ChunkerException('Overlap percentage must be between 0 and 100');
         }
 
@@ -196,7 +196,10 @@ class TextChunkerManager
             throw new ChunkerException('Text cannot be empty');
         }
 
-        if ($this->selectedStrategy === null || ! isset($this->strategies[$this->selectedStrategy])) {
+        if (
+            $this->selectedStrategy === null ||
+            ! isset($this->strategies[$this->selectedStrategy])
+        ) {
             $availableStrategies = implode(', ', array_keys($this->strategies));
             $strategyName = $this->selectedStrategy ?? 'none';
 
@@ -219,19 +222,7 @@ class TextChunkerManager
     }
 
     /**
-     * Check if a strategy uses the HasOverlap trait.
-     *
-     * @param ChunkerStrategyInterface $strategy The strategy instance
-     *
-     * @return bool True if the strategy uses HasOverlap trait
-     */
-    protected function usesOverlap(ChunkerStrategyInterface $strategy): bool
-    {
-        return in_array(HasOverlap::class, class_uses($strategy) ?: []);
-    }
-
-    /**
-     * Reset configuration state to prevent leaks between operations.
+     * Reset the configuration state to prevent leaks between operations.
      */
     protected function resetState(): void
     {
